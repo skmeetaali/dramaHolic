@@ -6,11 +6,12 @@
 
   {% for d in dramas %}
   <div class="card col-lg-4 col-sm-12">
-    <img src="https://i.pinimg.com/originals/b0/7b/f9/b07bf9d60e47c231f89c10af6dfa060d.jpg" alt="drama picture"
+    <img src="https://image.tmdb.org/t/p/w500/{{ d.thumbnail_img }}" alt="drama picture"
       class="card-img-top" />
     <div class="card-body">
       <div class="card-title">
         Title :{{ d.title }} Number of episodes : {{ d.total_ep }}
+        url : {{  d.thumbnil_img }}
       </div>
       {% for w in d.watchstat.all %}
       Last watched ep : {{ w.last_watched_ep }}

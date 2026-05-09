@@ -1,5 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse 
+from .models import drama, user_watching_status
+import requests
+
 
 dramas = ["Weak hero", "Weak hero 2", "All of us are dear", "Train to Busan"]
 manhuas = ["Change you story", "Jinx", "Heaven official's blessings"]
@@ -13,8 +16,10 @@ def home(request) :
 def showList(request):
     if request.method == "POST":
         drama_name = request.POST.get('drama')
+        no_ep = request.POST.get('no_ep')
         if drama_name != None and drama_name != "" and drama_name not in dramas:
-            dramas.append(drama_name)
+            d = drama(title = drama_name, total_ep = no_ep)
+            d.save()
         
         anime_name = request.POST.get('anime')
         if anime_name != None and anime_name != "":
@@ -25,8 +30,67 @@ def showList(request):
             manhuas.append(manhua_name)
     
     return render(request, "holics/library.html", {
-        "dramas" : dramas,
-         "animes": animes  , 
-         "manhuas": manhuas
+        "dramas" : drama.objects.all(),
+        "animes": animes  , 
+        "manhuas": manhuas ,
+        "watch_status": user_watching_status.objects.all()
     })
  
+def db(request) :
+    return render(request, "holics/database.html", {
+        "dramas" : drama.objects.all()
+    })
+    
+    
+
+
+
+def fetch_pop_movies(request):
+
+    if request.method == "POST":
+        movie = request.POST.get('drama')
+        no_ep = request.POST.get('no_ep')
+        
+        API_KEY = 'bb8bca8b23c3cd367e4427c2e163e971'
+        BASE_URL = "https://api.themoviedb.org/3"
+
+        headers = {
+            "accept": "application/json"
+        }
+
+
+        params = {
+            "api_key": API_KEY,
+            "query": movie
+        }
+        url = f'{BASE_URL}/search/movie?api_key={API_KEY}&query={movie}'
+        response = requests.get(url, headers=headers, params=params)
+        if response.status_code == 200:
+            data = response.json()
+            first_movie = data["results"][0]
+            title = first_movie["title"]
+            overview = first_movie["overview"]
+            poster = first_movie["poster_path"]
+            if movie != None and movie != "" and movie not in dramas:
+                d = drama(title = title, total_ep = no_ep,  thumbnail_img = poster)
+                d.save()
+        else:
+            print("error fetching data")
+
+
+        
+        anime_name = request.POST.get('anime')
+        if anime_name != None and anime_name != "":
+            animes.append(anime_name)
+        
+        manhua_name = request.POST.get('manhua')
+        if manhua_name != None and manhua_name != "":
+            manhuas.append(manhua_name)
+
+        
+    return render(request, "holics/api.html", {
+        "dramas" : drama.objects.all(),
+        "animes": animes  , 
+        "manhuas": manhuas ,
+        "watch_status": user_watching_status.objects.all(),
+    })

@@ -1,0 +1,11 @@
+{% extends "holics/layout.html" %}
+{% block body %}
+<h1>Drama list</h1>
+
+<h2>Drama List</h2>
+<ul>
+    {% for drama in dramas %}
+    <li>Title :{{ drama.title }} Number of episodes : {{ drama.total_ep }} </li>
+    {% endfor %}
+</ul>
+{% endblock %}
