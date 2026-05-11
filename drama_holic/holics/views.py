@@ -55,27 +55,40 @@ def fetch_pop_movies(request):
         BASE_URL = "https://api.themoviedb.org/3"
 
         headers = {
-            "accept": "application/json"
+            "accept": "application/json",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36"
         }
+
 
 
         params = {
             "api_key": API_KEY,
             "query": movie
         }
+        response = ""
         url = f'{BASE_URL}/search/movie?api_key={API_KEY}&query={movie}'
-        response = requests.get(url, headers=headers, params=params)
-        if response.status_code == 200:
-            data = response.json()
-            first_movie = data["results"][0]
-            title = first_movie["title"]
-            overview = first_movie["overview"]
-            poster = first_movie["poster_path"]
-            if movie != None and movie != "" and movie not in dramas:
-                d = drama(title = title, total_ep = no_ep,  thumbnail_img = poster)
-                d.save()
-        else:
-            print("error fetching data")
+        while response == "":
+            try :
+                response = requests.get(url, headers=headers, params=params)
+                if response.status_code == 200:
+                    if response.json():
+                        data = response.json()
+                        if data["results"][0]:
+                            first_movie = data["results"][0]
+                            title = first_movie["title"]
+                            overview = first_movie["overview"]
+                            poster = first_movie["poster_path"]
+                            if movie != None and movie != "" and movie not in dramas:
+                                d = drama(title = title, total_ep = no_ep,  thumbnail_img = poster)
+                                d.save()
+                        else:
+                            return HttpResponse("No drama found")
+                    else:
+                        return HttpResponse("No json data")
+                else:
+                    print("error fetching data")
+            except Exception as e:
+                print("exception", e)
 
 
         
