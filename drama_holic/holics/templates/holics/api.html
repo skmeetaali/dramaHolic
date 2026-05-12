@@ -1,21 +1,17 @@
-{% extends "holics/layout.html" %}
+{% extends "holics/addobject_layout.html" %}
 {% block body %}
 <div class=" outer_right row">
-<<<<<<< HEAD
   <h2 id="heading">Your present watch list</h2>
-=======
-  <h2 id="heading">Your present watch list</h2>
->>>>>>> 18734b12223a2a160bb8d43ae6ba951755b06dfd
+
   <h2>Drama List</h2>
 
   {% for d in dramas %}
   <div class="card col-lg-4 col-sm-12">
-    <img src="https://image.tmdb.org/t/p/w500/{{ d.thumbnail_img }}" alt="drama picture"
-      class="card-img-top" />
+    <img src="https://image.tmdb.org/t/p/w500/{{ d.thumbnail_img }}" alt="drama picture" class="card-img-top" />
     <div class="card-body">
       <div class="card-title">
         Title :{{ d.title }} Number of episodes : {{ d.total_ep }}
-        url : {{  d.thumbnil_img }}
+        url : {{ d.thumbnil_img }}
       </div>
       {% for w in d.watchstat.all %}
       Last watched ep : {{ w.last_watched_ep }}
@@ -30,6 +26,13 @@
     </div>
   </div>
   {% endfor %}
+  <div class="redirect_button">
+    <button>
+      <a href="{% url 'holics:showList'  %}">
+        Add
+      </a>
+    </button>
+  </div>
 </div>
 </div>
 {% endblock %}
