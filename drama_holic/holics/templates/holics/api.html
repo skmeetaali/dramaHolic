@@ -1,6 +1,6 @@
 {% extends "holics/addobject_layout.html" %}
 {% block body %}
-<div class=" outer_right row">
+<div class=" cards_list row">
   <h2 id="heading">Your present watch list</h2>
 
   <h2>Drama List</h2>
@@ -26,13 +26,8 @@
     </div>
   </div>
   {% endfor %}
-  <div class="redirect_button">
-    <button>
-      <a href="{% url 'holics:showList'  %}">
-        Add
-      </a>
-    </button>
-  </div>
+
 </div>
 </div>
+<br><br><br><br>
 {% endblock %}
