@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse 
-from .models import drama, user_watching_status
+from .models import drama, user_drama_watching_status
 import requests
 
 
