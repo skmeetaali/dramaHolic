@@ -25,6 +25,35 @@
     </div>
   </div>
   {% endfor %}
+
+
+  <h2>Anime List</h2>
+  <h2>Your current watch list</h2>
+
+  {% for anime in animes %}
+  <div class="card col-lg-4 col-sm-12">
+    <img src="{{ anime.thumbnail_img }}" alt="anime picture"
+      class="card-img-top" />
+    <div class="card-body">
+      <div class="card-title">
+        Title :{{ anime.title }} Number of episodes : {{ anime.total_ep }}
+      </div>
+      {% for w in anime.ani_watchstat.all %}
+      Last watched ep : {{ w.last_watched_ep }}
+      <br>
+      Last released : {{ w.last_released_ep }}
+      {% if w.last_watched_ep < w.last_released_ep %} <button class="btn btn-success">New</button>
+        {% endif %}
+        {% empty %}
+        <p></p>
+        {% endfor %}
+
+    </div>
+  </div>
+  {% endfor %}
+
+
+  
   <div class="redirect_button">
     <button>
       <a href="{% url 'holics:api'  %}">

@@ -7,6 +7,6 @@ urlpatterns = [
     path("", views.home, name="home"),
     path("showList/", views.showList, name="showList"),
     path("database/", views.db, name="db"),
-    path("api/", views.fetch_pop_movies, name="api")
-
+    path("api/", views.fetch_pop_movies, name="api"),
+    path("add_anime", views.add_anime, name="add_anime")
 ]

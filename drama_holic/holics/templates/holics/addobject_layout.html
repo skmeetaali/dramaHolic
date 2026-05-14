@@ -1,185 +1,179 @@
 <!doctype html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Library</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+    />
     <style>
-        body {
-            color: white;
-        }
+      body {
+        color: white;
+      }
 
-        .outermost {
-            display: grid;
-            grid-template-columns: 40% 60%;
-        }
+      .outermost {
+        display: grid;
+        grid-template-columns: 40% 60%;
+      }
 
+      .add {
+        color: white;
+        padding: 20px;
+        position: fixed;
+        max-width: inherit;
+        width: 40%;
+      }
 
-        .add {
-            color: white;
-            padding: 20px;
-            position: fixed;
-            max-width: inherit;
-            width: 40%;
-        }
+      .cards {
+        display: flex;
+        flex-wrap: wrap;
+        background-color: rgb(33, 33, 33);
+        overflow-y: scroll;
+        -ms-overflow-style: none;
+        height: 900px;
+        scrollbar-width: none;
+        width: 100%;
+      }
 
-        .cards {
-            display: flex;
-            flex-wrap: wrap;
-            background-color: rgb(33, 33, 33);
-            overflow-y: scroll;
-            -ms-overflow-style: none;
-            height: 900px;
-            scrollbar-width: none;
-            width: 100%;
+      .cards > div {
+        padding: 2px;
+        margin: 20px;
+        font-weight: 500;
+      }
 
-        }
+      .cards_list {
+        display: flex;
+        background-color: rgb(33, 33, 33);
+        flex-wrap: wrap;
+        width: 100%;
+        color: white;
+        margin: 10px;
+        position: fixed;
+        right: 0;
+        overflow-y: scroll;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+        width: 60%;
+        height: 900px;
+      }
 
-        .cards>div {
-            padding: 2px;
-            margin: 20px;
-            font-weight: 500;
-        }
+      .cards_list > div {
+        padding: 2px;
+        margin: 20px;
+        font-weight: 500;
+      }
 
-        .cards_list {
-            display: flex;
-            background-color: rgb(33, 33, 33);
-            flex-wrap: wrap;
-            width: 100%;
-            color: white;
-            margin: 10px;
-            position: fixed;
-            right: 0;
-            overflow-y: scroll;
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-            width: 60%;
-            height: 900px;
-        }
+      .card {
+        width: 250px;
+        margin-top: 20px;
+        height: fit-content;
+      }
 
-        .cards_list>div {
-            padding: 2px;
-            margin: 20px;
-            font-weight: 500;
-        }
+      .cards > .card {
+        height: 600px;
+      }
 
-
-        .card {
-            width: 250px;
-            margin-top: 20px;
-            height: fit-content;
-        }
-
-        .cards>.card {
-            height: 600px;
-        }
-
-        .cards_list>.card {
-            height: 500px;
-        }
+      .cards_list > .card {
+        height: 500px;
+      }
     </style>
-</head>
+  </head>
 
-
-<body style="background-color: black ; color: white;">
-    <nav class="navbar">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">Navbar</a>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
-hallo
-
+  <body style="background-color: black; color: white">
     <div class="outermost">
-        <div class="add">
-            <h2>Still more to watch? add em!</h2>
-            <div class="cards row">
-                <div class="card col-lg-4 col-sm-12">
-                    <img src="https://i.pinimg.com/originals/b0/7b/f9/b07bf9d60e47c231f89c10af6dfa060d.jpg"
-                        alt="drama picture" class="card-img-top" />
-                    <div class="card-body">
-                        <form action="{% url 'holics:api' %}" method="post">
-                            {% csrf_token %}
-                            <label for="drama" class="card-title">Add to the drama list</label>
-                            <input type="text" name="drama" class="form-control" />
-                            <label for="no_ep" class="card-title">Number of episodes</label>
-                            <input type="Number" name="no_ep" class="form-control" />
-                            <button type="submit" class="btn btn-primary">Add</button>
-                        </form>
-                    </div>
-                </div>
-
-
-
-                <div class="card col-lg-4 col-sm-12">
-                    <img src="https://iwatchitall.com/wp-content/uploads/2021/12/Mo-Dao-Zu-Shi-729x1024.jpg"
-                        alt="drama picture" class="card-img-top" />
-                    <div class="card-body">
-                        <form action="{% url 'holics:showList' %}" method="post">
-                            {% csrf_token %}
-                            <label for="drama" class="form-label">Add to the Manhua list</label>
-                            <input type="text" name="manhua" class="form-control" />
-                            <button type="submit" class="btn btn-primary">Add</button>
-                        </form>
-                    </div>
-                </div>
-
-
-
-                <div class="card col-lg-4 col-sm-12">
-                    <img src="https://i.pinimg.com/originals/45/bb/e4/45bbe4b282f49903338cb71c03ed0166.png"
-                        alt="drama picture" class="card-img-top" />
-                    <div class="card-body">
-                        <form action="{% url 'holics:showList' %}" method="post">
-                            {% csrf_token %}
-                            <label for="drama" class="form-label">Add to the Anime list</label>
-                            <input type="text" name="anime" class="form-control" />
-                            <button type="submit" class="btn btn-primary">Add</button>
-                        </form>
-                    </div>
-                </div>
-
-
-
-                <div class="card col-lg-4 col-sm-12">
-                    <img src="http://static.boredpanda.com/blog/wp-content/uploads/2016/10/harry-potter-book-covers-illustration-olly-moss-3.jpg"
-                        alt="drama picture" class="card-img-top" />
-                    <div class="card-body">
-                        <form action="{% url 'holics:showList' %}" method="post">
-                            {% csrf_token %}
-                            <label for="drama" class="form-label">Add to the Novel list</label>
-                            <input type="text" name="novel" class="form-control" />
-                            <button type="submit" class="btn btn-primary">Add</button>
-                        </form>
-                    </div>
-                </div>
-                <div class="redirect_button">
-                    <button>
-                        <a href="{% url 'holics:showList'  %}">
-                            Add
-                        </a>
-                    </button>
-                </div>
-                <br><br> <br><br>
+      <div class="add">
+        <h2>Still more to watch? add em!</h2>
+        <div class="cards row">
+          <div class="card col-lg-4 col-sm-12">
+            <img
+              src="https://i.pinimg.com/originals/b0/7b/f9/b07bf9d60e47c231f89c10af6dfa060d.jpg"
+              alt="drama picture"
+              class="card-img-top"
+            />
+            <div class="card-body">
+              <form action="{% url 'holics:api' %}" method="post">
+                {% csrf_token %}
+                <label for="drama" class="card-title"
+                  >Add to the drama list</label
+                >
+                <input type="text" name="drama" class="form-control" />
+                <label for="no_ep" class="card-title">Number of episodes</label>
+                <input type="Number" name="no_ep" class="form-control" />
+                <button type="submit" class="btn btn-primary">Add</button>
+              </form>
             </div>
+          </div>
+
+          <div class="card col-lg-4 col-sm-12">
+            <img
+              src="https://iwatchitall.com/wp-content/uploads/2021/12/Mo-Dao-Zu-Shi-729x1024.jpg"
+              alt="drama picture"
+              class="card-img-top"
+            />
+            <div class="card-body">
+              <form action="{% url 'holics:showList' %}" method="post">
+                {% csrf_token %}
+                <label for="drama" class="form-label"
+                  >Add to the Manhua list</label
+                >
+                <input type="text" name="manhua" class="form-control" />
+                <button type="submit" class="btn btn-primary">Add</button>
+              </form>
+            </div>
+          </div>
+
+          <div class="card col-lg-4 col-sm-12">
+            <img
+              src="https://i.pinimg.com/originals/45/bb/e4/45bbe4b282f49903338cb71c03ed0166.png"
+              alt="drama picture"
+              class="card-img-top"
+            />
+            <div class="card-body">
+              <form action="{% url 'holics:add_anime' %}" method="post">
+                {% csrf_token %}
+                <label for="anime" class="form-label"
+                  >Add to the Anime list</label
+                >
+                <input type="text" name="anime" class="form-control" />
+                <label for="season_no" class="card-title">Season</label>
+                <input type="Number" name="season_no" class="form-control" />
+                <label for="curr_ep" class="card-title">Your ima no episode?</label>
+                <input type="Number" name="curr_ep" class="form-control" />
+                <button type="submit" class="btn btn-primary">Add</button>
+              </form>
+            </div>
+          </div>
+
+          <div class="card col-lg-4 col-sm-12">
+            <img
+              src="http://static.boredpanda.com/blog/wp-content/uploads/2016/10/harry-potter-book-covers-illustration-olly-moss-3.jpg"
+              alt="drama picture"
+              class="card-img-top"
+            />
+            <div class="card-body">
+              <form action="{% url 'holics:showList' %}" method="post">
+                {% csrf_token %}
+                <label for="drama" class="form-label"
+                  >Add to the Novel list</label
+                >
+                <input type="text" name="novel" class="form-control" />
+                <button type="submit" class="btn btn-primary">Add</button>
+              </form>
+            </div>
+          </div>
+          <div class="redirect_button">
+            <button>
+              <a href="{% url 'holics:showList'  %}"> Add </a>
+            </button>
+          </div>
+          <br /><br />
+          <br /><br />
         </div>
+      </div>
 
-        {% block body %}
-        {% endblock %}
+      {% block body %} {% endblock %}
     </div>
-
-</body>
-
+  </body>
 </html>

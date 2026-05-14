@@ -16,7 +16,8 @@ class drama(models.Model):
     
 # class / model for storing watching status of  adrama
 class user_drama_watching_status(models.Model):
-    drama = models.ForeignKey(drama, on_delete=models.CASCADE, related_name="watchstat")    # this acually means we are referencing the primary key of drama table
+    drama = models.ForeignKey(drama, on_delete=models.CASCADE, related_name="drama_watchstat")    # this acually means we are referencing the primary key of drama table
+    season = models.IntegerField()
     last_watched_ep =models.IntegerField()
     last_released_ep = models.IntegerField(null=True, blank=True)
     watch_status = models.CharField(max_length=32,null=True, blank=True)
@@ -34,9 +35,10 @@ class animes(models.Model):
     original_title = models.CharField(max_length=512)
     total_ep = models.IntegerField()
     thumbnail_img = models.URLField(null=True)
+    status = models.CharField(max_length=32,null=True, blank=True)
 
 class user_anime_watching_status(models.Model):
-    drama = models.ForeignKey(animes, on_delete=models.CASCADE, related_name="watchstat")    # this acually means we are referencing the primary key of anime table
+    anime = models.ForeignKey(animes, on_delete=models.CASCADE, related_name="ani_watchstat")    # this acually means we are referencing the primary key of anime table
     last_watched_ep =models.IntegerField()
     last_released_ep = models.IntegerField(null=True, blank=True)
     watch_status = models.CharField(max_length=32,null=True, blank=True)
