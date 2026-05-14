@@ -14,20 +14,6 @@ def home(request) :
 
 
 def showList(request):
-    if request.method == "POST":
-        drama_name = request.POST.get('drama')
-        no_ep = request.POST.get('no_ep')
-        if drama_name != None and drama_name != "" and drama_name not in dramas:
-            d = drama(title = drama_name, total_ep = no_ep)
-            d.save()
-        
-        anime_name = request.POST.get('anime')
-        if anime_name != None and anime_name != "":
-            animes.append(anime_name)
-        
-        manhua_name = request.POST.get('manhua')
-        if manhua_name != None and manhua_name != "":
-            manhuas.append(manhua_name)
     
     return render(request, "holics/library.html", {
         "dramas" : drama.objects.all(),
