@@ -57,7 +57,7 @@ class mangas(models.Model):
     status = models.CharField(max_length=32,null=True, blank=True)
 
 class user_manga_watching_status(models.Model):
-    manga = models.ForeignKey(mangas, on_delete=models.CASCADE, related_name="ani_watchstat")    # this acually means we are referencing the primary key of anime table
+    manga = models.ForeignKey(mangas, on_delete=models.CASCADE, related_name="manga_watchstat")    # this acually means we are referencing the primary key of anime table
     season = models.IntegerField(null=True, blank=True)
     last_watched_ep =models.IntegerField()
     last_released_ep = models.IntegerField(null=True, blank=True)

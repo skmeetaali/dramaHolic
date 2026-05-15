@@ -53,10 +53,35 @@
   {% endfor %}
 
 
+  <h2>Manga List</h2>
+
+  {% for manga in mangas %}
+  <div class="card col-lg-4 col-sm-12">
+    <img src="{{ manga.thumbnail_img }}" alt="anime picture"
+      class="card-img-top" />
+    <div class="card-body">
+      <div class="card-title">
+        Title :{{ manga.title }} Number of episodes : {{ manga.total_ep }}
+      </div>
+      {% for w in manga.manga_watchstat.all %}
+      Last watched ep : {{ w.last_watched_ep }}
+      <br>
+      Last released : {{ w.last_released_ep }}
+      {% if w.last_watched_ep < w.last_released_ep %} <button class="btn btn-success">New</button>
+        {% endif %}
+        {% empty %}
+        <p></p>
+        {% endfor %}
+
+    </div>
+  </div>
+  {% endfor %}
+
+
   
   <div class="redirect_button">
     <button class="btn btn-primary">
-      <a href="{% url 'holics:api'  %}">
+      <a href="{% url 'holics:add'  %}">
         Add 
       </a>
     </button>

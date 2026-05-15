@@ -2,11 +2,9 @@ from django.shortcuts import render
 from django.http import HttpResponse 
 from .models import dramas, user_drama_watching_status
 from .models import animes, user_anime_watching_status
+from .models import mangas, user_manga_watching_status
 import requests
 
-
-dramas = ["Weak hero", "Weak hero 2", "All of us are dear", "Train to Busan"]
-manhuas = ["Change you story", "Jinx", "Heaven official's blessings"]
 
 
 
@@ -14,24 +12,25 @@ manhuas = ["Change you story", "Jinx", "Heaven official's blessings"]
 def home(request) :
     return  render(request, "holics/home.html")
 
-
-def showList(request):
-    
-    return render(request, "holics/library.html", {
+def add(request):
+    return render(request, "holics/api.html", {
         "dramas" : dramas.objects.all(),
         "animes": animes.objects.all(),
-        "manhuas": manhuas ,
+        "manga": mangas.objects.all(),
+        "watch_manga_status" : user_manga_watching_status.objects.all(),
         "watch_drama_status": user_drama_watching_status.objects.all(),
         "watch_anime_status" : user_anime_watching_status.objects.all()
     })
- 
-def db(request) :
-    return render(request, "holics/database.html", {
-        "dramas" : drama.objects.all()
-    })
-    
-    
 
+def showList(request):
+    return render(request, "holics/library.html", {
+        "dramas" : dramas.objects.all(),
+        "animes": animes.objects.all(),
+        "manga": mangas.objects.all(),
+        "watch_manga_status" : user_manga_watching_status.objects.all(),
+        "watch_drama_status": user_drama_watching_status.objects.all(),
+        "watch_anime_status" : user_anime_watching_status.objects.all()
+    })
 
 
 def fetch_pop_movies(request):
@@ -81,20 +80,13 @@ def fetch_pop_movies(request):
 
 
         
-        anime_name = request.POST.get('anime')
-        if anime_name != None and anime_name != "":
-            animes.append(anime_name)
-        
-        manhua_name = request.POST.get('manhua')
-        if manhua_name != None and manhua_name != "":
-            manhuas.append(manhua_name)
-
-        
     return render(request, "holics/api.html", {
         "dramas" : dramas.objects.all(),
-        "animes": animes  , 
-        "manhuas": manhuas ,
-        "watch_status": user_drama_watching_status.objects.all(),
+        "animes": animes.objects.all(),
+        "manga": mangas.objects.all(),
+        "watch_manga_status" : user_manga_watching_status.objects.all(),
+        "watch_drama_status": user_drama_watching_status.objects.all(),
+        "watch_anime_status" : user_anime_watching_status.objects.all()
     })
     
     
@@ -192,19 +184,22 @@ def add_anime(request):
                 print("exception", e)
         
         
-                
+        
     return render(request, "holics/library.html", {
         "dramas" : dramas.objects.all(),
         "animes": animes.objects.all(),
-        "manhuas": manhuas ,
+        "manga": mangas.objects.all(),
+        "watch_manga_status" : user_manga_watching_status.objects.all(),
         "watch_drama_status": user_drama_watching_status.objects.all(),
         "watch_anime_status" : user_anime_watching_status.objects.all()
     })
     
     
+    
+    
 def add_manga(request):
     if request.method == 'POST': 
-        anime_title = request.POST.get("manga")
+        manga_title = request.POST.get("manga")
         season = request.POST.get("season_no")
         curr_ep = request.POST.get("curr_ep")
         anilist_root = "https://graphql.anilist.co"
@@ -213,7 +208,7 @@ def add_manga(request):
         query = """
         query ($search: String) {
 
-        Media(search: $search, type: ANIME) {
+        Media(search: $search, type: MANGA) {
 
             bannerImage
 
@@ -249,7 +244,7 @@ def add_manga(request):
         }
         """
         variables = {
-            "search": anime_title
+            "search": manga_title
         }   
         response = ""
         while response == "":
@@ -275,8 +270,8 @@ def add_manga(request):
 
                     # adding anime to animes list
                     if media:
-                        anime = animes(title = title, original_title = original_title, total_ep = total_ep, status = status, thumbnail_img = thumbnail_img)
-                        anime.save()
+                        manga = mangas(title = title, original_title = original_title, total_ep = total_ep, status = status, thumbnail_img = thumbnail_img)
+                        manga.save()
                             
                         next_airing = media["nextAiringEpisode"]
                         if next_airing:
@@ -285,10 +280,10 @@ def add_manga(request):
                         else:
                             last_released_ep = media["episodes"]
                             next_ep_release_date = None
-                        watch_status = user_anime_watching_status(anime = anime, last_released_ep = last_released_ep, next_ep_release_date = next_ep_release_date,last_watched_ep = curr_ep)   
+                        watch_status = user_manga_watching_status(manga = manga, last_released_ep = last_released_ep, next_ep_release_date = next_ep_release_date,last_watched_ep = curr_ep)   
                         watch_status.save()            
                     else:
-                        print("no anime found aaaaaaa")
+                        print("no manga found aaaaaaa")
                 else:
                     print("no data")          
                 
@@ -300,7 +295,8 @@ def add_manga(request):
     return render(request, "holics/library.html", {
         "dramas" : dramas.objects.all(),
         "animes": animes.objects.all(),
-        "manhuas": manhuas ,
+        "manga": mangas.objects.all(),
+        "watch_manga_status" : user_manga_watching_status.objects.all(),
         "watch_drama_status": user_drama_watching_status.objects.all(),
         "watch_anime_status" : user_anime_watching_status.objects.all()
     })
