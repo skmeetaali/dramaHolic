@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse 
-from .models import drama, user_drama_watching_status
+from .models import dramas, user_drama_watching_status
 from .models import animes, user_anime_watching_status
 import requests
 
@@ -18,7 +18,7 @@ def home(request) :
 def showList(request):
     
     return render(request, "holics/library.html", {
-        "dramas" : drama.objects.all(),
+        "dramas" : dramas.objects.all(),
         "animes": animes.objects.all(),
         "manhuas": manhuas ,
         "watch_drama_status": user_drama_watching_status.objects.all(),
@@ -68,7 +68,7 @@ def fetch_pop_movies(request):
                             overview = first_movie["overview"]
                             poster = first_movie["poster_path"]
                             if movie != None and movie != "" and movie not in dramas:
-                                d = drama(title = title, total_ep = no_ep,  thumbnail_img = poster)
+                                d = dramas(title = title, total_ep = no_ep,  thumbnail_img = poster)
                                 d.save()
                         else:
                             return HttpResponse("No drama found")
@@ -91,7 +91,7 @@ def fetch_pop_movies(request):
 
         
     return render(request, "holics/api.html", {
-        "dramas" : drama.objects.all(),
+        "dramas" : dramas.objects.all(),
         "animes": animes  , 
         "manhuas": manhuas ,
         "watch_status": user_drama_watching_status.objects.all(),
@@ -99,7 +99,7 @@ def fetch_pop_movies(request):
     
     
 def add_anime(request):
-    if request.method == 'POST':
+    if request.method == 'POST': 
         anime_title = request.POST.get("anime")
         season = request.POST.get("season_no")
         curr_ep = request.POST.get("curr_ep")
@@ -194,7 +194,111 @@ def add_anime(request):
         
                 
     return render(request, "holics/library.html", {
-        "dramas" : drama.objects.all(),
+        "dramas" : dramas.objects.all(),
+        "animes": animes.objects.all(),
+        "manhuas": manhuas ,
+        "watch_drama_status": user_drama_watching_status.objects.all(),
+        "watch_anime_status" : user_anime_watching_status.objects.all()
+    })
+    
+    
+def add_manga(request):
+    if request.method == 'POST': 
+        anime_title = request.POST.get("manga")
+        season = request.POST.get("season_no")
+        curr_ep = request.POST.get("curr_ep")
+        anilist_root = "https://graphql.anilist.co"
+
+                
+        query = """
+        query ($search: String) {
+
+        Media(search: $search, type: ANIME) {
+
+            bannerImage
+
+            coverImage {
+            extraLarge
+            large
+            medium
+            color
+            }
+
+            nextAiringEpisode {
+            episode
+            airingAt
+            timeUntilAiring
+            }
+
+            airingSchedule {
+            nodes {
+                episode
+                airingAt
+            }
+            }
+
+            title {
+            native
+            english
+            }
+
+            status
+            popularity
+            episodes
+        }
+        }
+        """
+        variables = {
+            "search": anime_title
+        }   
+        response = ""
+        while response == "":
+            try :
+                response = requests.post(
+                anilist_root,
+                json={
+                    "query" : query,
+                    "variables": variables
+                    }
+                )
+                
+                if  response.json():
+                    data = response.json()
+                    media = data["data"]["Media"]
+                    title = media["title"]["english"]
+                    original_title = media["title"]["native"]
+                    total_ep = media["episodes"]
+                    status = media["status"]
+                    thumbnail_img = media["coverImage"]["extraLarge"]
+                                    
+    
+
+                    # adding anime to animes list
+                    if media:
+                        anime = animes(title = title, original_title = original_title, total_ep = total_ep, status = status, thumbnail_img = thumbnail_img)
+                        anime.save()
+                            
+                        next_airing = media["nextAiringEpisode"]
+                        if next_airing:
+                            last_released_ep = next_airing["episode"] - 1
+                            next_ep_release_date = next_airing["airingAt"]
+                        else:
+                            last_released_ep = media["episodes"]
+                            next_ep_release_date = None
+                        watch_status = user_anime_watching_status(anime = anime, last_released_ep = last_released_ep, next_ep_release_date = next_ep_release_date,last_watched_ep = curr_ep)   
+                        watch_status.save()            
+                    else:
+                        print("no anime found aaaaaaa")
+                else:
+                    print("no data")          
+                
+            except Exception as e:
+                print("exception", e)
+        
+        
+                
+    return render(request, "holics/library.html", {
+        "dramas" : dramas.objects.all(),
         "animes": animes.objects.all(),
         "manhuas": manhuas ,
         "watch_drama_status": user_drama_watching_status.objects.all(),
