@@ -25,6 +25,7 @@ def add(request):
     })
 
 def showList(request):
+        
     return render(request, "holics/library.html", {
         "dramas" : dramas.objects.all(),
         "animes": animes.objects.all(),
