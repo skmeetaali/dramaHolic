@@ -55,7 +55,7 @@ def fetch_pop_movies(request):
             "query": movie
         }
         response = ""
-        url = f'{BASE_URL}/search/movie?api_key={API_KEY}&query={movie}'
+        url = f'{BASE_URL}/search/movie'
         while response == "":
             try :
                 response = requests.get(url, headers=headers, params=params)
@@ -75,6 +75,7 @@ def fetch_pop_movies(request):
                     else:
                         return HttpResponse("No json data")
                 else:
+                    print(response.status_code)
                     print("error fetching data")
             except Exception as e:
                 print("exception", e)
