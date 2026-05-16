@@ -1,67 +1,104 @@
 {% extends "holics/layout.html" %}
 {% block body %}
 <div class=" outer_right row">
-  <h2>Your current watch list</h2>
+  <h1 style="background-color: white;color: black;">Your current watch lis</h1>
+  <br><br>
+  <h2 style="background-color: grey;">Movies List</h2>
 
-  {% for d in dramas %}
-  <div class="card col-lg-4 col-sm-12">
-    <img src="https://image.tmdb.org/t/p/w500/{{ d.thumbnail_img }}" alt="drama picture"
-      class="card-img-top" />
-    <div class="card-body">
-      <div class="card-title">
-        Title :{{ d.title }} Number of episodes : {{ d.total_ep }}
-        url : {{  d.thumbnil_img }}
+  <div class="program">
+    {% for d in dramas %}
+    <div class="card col-lg-4 col-sm-12">
+      <img src="https://image.tmdb.org/t/p/w500/{{ d.thumbnail_img }}" alt="drama picture" class="card-img-top" />
+      <div class="card-body">
+        <div class="card-title">
+          Title :{{ d.title }} Number of episodes : {{ d.total_ep }}
+          url : {{ d.thumbnil_img }}
+        </div>
+        {% for w in d.watchstat.all %}
+        Last watched ep : {{ w.last_watched_ep }}
+        <br>
+        Last released : {{ w.last_released_ep }}
+        {% if w.last_watched_ep < w.last_released_ep %} <button class="btn btn-success">New</button>
+          {% endif %}
+          {% empty %}
+          <p></p>
+          {% endfor %}
+
       </div>
-      {% for w in d.watchstat.all %}
-      Last watched ep : {{ w.last_watched_ep }}
-      <br>
-      Last released : {{ w.last_released_ep }}
-      {% if w.last_watched_ep < w.last_released_ep %} <button class="btn btn-success">New</button>
-        {% endif %}
-        {% empty %}
-        <p></p>
-        {% endfor %}
-
     </div>
+    {% endfor %}
   </div>
-  {% endfor %}
+  <br>
+  <hr>
 
 
-  <h2>Anime List</h2>
-  <h2>Your current watch list</h2>
 
-  {% for anime in animes %}
-  <div class="card col-lg-4 col-sm-12">
-    <img src="{{ anime.thumbnail_img }}" alt="anime picture"
-      class="card-img-top" />
-    <div class="card-body">
-      <div class="card-title">
-        Title :{{ anime.title }} Number of episodes : {{ anime.total_ep }}
+  <h2 style="background-color: grey;">Anime List</h2>
+  <div class="program">
+    {% for anime in animes %}
+    <div class="card col-lg-4 col-sm-12">
+      <img src="{{ anime.thumbnail_img }}" alt="anime picture" class="card-img-top" />
+      <div class="card-body">
+        <div class="card-title">
+          Title :{{ anime.title }}
+          <br>
+          Total of episodes : {{ anime.total_ep }}
+        </div>
+        {% for w in anime.ani_watchstat.all %}
+        Last watched ep : {{ w.last_watched_ep }}
+        <br>
+        Last released : {{ w.last_released_ep }}
+        {% if w.last_watched_ep < w.last_released_ep %} <button class="btn btn-success">New</button>
+          {% endif %}
+          {% empty %}
+          <p></p>
+          {% endfor %}
       </div>
-      {% for w in anime.ani_watchstat.all %}
-      Last watched ep : {{ w.last_watched_ep }}
-      <br>
-      Last released : {{ w.last_released_ep }}
-      {% if w.last_watched_ep < w.last_released_ep %} <button class="btn btn-success">New</button>
-        {% endif %}
-        {% empty %}
-        <p></p>
-        {% endfor %}
-
     </div>
+    {% endfor %}
   </div>
-  {% endfor %}
+  <br>
+  <hr>
 
 
-  
+
+  <h2 style="background-color: grey;">Manga List</h2>
+  <div class="program">
+    {% for manga in mangas %}
+    <div class="card col-lg-4 col-sm-12">
+      <img src="{{ manga.thumbnail_img }}" alt="anime picture" class="card-img-top" />
+      <div class="card-body">
+        <div class="card-title">
+          Title :{{ manga.title }} Number of episodes : {{ manga.total_ep }}
+          <br>
+          Status : {{ manga.status }}
+
+        </div>
+        {% for w in manga.manga_watchstat.all %}
+        Last watched ep : {{ w.last_watched_ep }}
+        <br>
+        Last released : {{ w.last_released_ep }}
+        {% if w.last_watched_ep < w.last_released_ep %} <button class="btn btn-success">New</button>
+          {% endif %}
+          {% empty %}
+          <p></p>
+          {% endfor %}
+
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+
+
   <div class="redirect_button">
     <button class="btn btn-primary">
-      <a href="{% url 'holics:api'  %}">
-        Add 
+      <a href="{% url 'holics:add'  %}">
+        Add
       </a>
     </button>
   </div>
-  
+
 </div>
 </div>
 {% endblock %}

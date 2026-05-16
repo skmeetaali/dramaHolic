@@ -113,16 +113,23 @@
               class="card-img-top"
             />
             <div class="card-body">
-              <form action="{% url 'holics:showList' %}" method="post">
+              <form action="{% url 'holics:add_manga' %}" method="post">
                 {% csrf_token %}
-                <label for="drama" class="form-label"
-                  >Add to the Manhua list</label
+                <label for="manga" class="form-label"
+                  >Add to the Manga list</label
                 >
-                <input type="text" name="manhua" class="form-control" />
+                <input type="text" name="manga" class="form-control" />
+                <label for="season_no" class="card-title">Season</label>
+                <input type="Number" name="season_no" class="form-control" />
+                <label for="curr_ep" class="card-title">Your ima no episode?</label>
+                <input type="Number" name="curr_ep" class="form-control" />
                 <button type="submit" class="btn btn-primary">Add</button>
               </form>
             </div>
           </div>
+
+
+
 
           <div class="card col-lg-4 col-sm-12">
             <img
@@ -145,6 +152,10 @@
               </form>
             </div>
           </div>
+
+
+
+
 
           <div class="card col-lg-4 col-sm-12">
             <img
