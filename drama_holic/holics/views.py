@@ -18,13 +18,14 @@ def add(request):
     return render(request, "holics/api.html", {
         "dramas" : dramas.objects.all(),
         "animes": animes.objects.all(),
-        "manga": mangas.objects.all(),
+        "mangas": mangas.objects.all(),
         "watch_manga_status" : user_manga_watching_status.objects.all(),
         "watch_drama_status": user_drama_watching_status.objects.all(),
         "watch_anime_status" : user_anime_watching_status.objects.all()
     })
 
 def showList(request):
+        
     return render(request, "holics/library.html", {
         "dramas" : dramas.objects.all(),
         "animes": animes.objects.all(),
@@ -76,6 +77,7 @@ def fetch_pop_movies(request):
                     else:
                         return HttpResponse("No json data")
                 else:
+                    print(response.status_code)
                     print("error fetching data")
             except Exception as e:
                 print ('type is:', e.__class__.__name__)
