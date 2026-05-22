@@ -8,11 +8,11 @@ from traceback import print_exc
 
 
 
-
-
 # Create your views here.
 def home(request) :
     return  render(request, "holics/home.html")
+
+
 
 def add(request):
     return render(request, "holics/api.html", {
@@ -23,6 +23,7 @@ def add(request):
         "watch_drama_status": user_drama_watching_status.objects.all(),
         "watch_anime_status" : user_anime_watching_status.objects.all()
     })
+
 
 def showList(request):
         
@@ -49,8 +50,6 @@ def fetch_pop_movies(request):
             "accept": "application/json",
             "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36"
         }
-
-
 
         params = {
             "api_key": API_KEY,
@@ -326,3 +325,7 @@ def add_manga(request):
         "watch_drama_status": user_drama_watching_status.objects.all(),
         "watch_anime_status" : user_anime_watching_status.objects.all()
     })
+    
+    
+def DELETE(request, ID):
+    
