@@ -98,7 +98,9 @@
               {% csrf_token %}
               <label for="drama" class="card-title">Add to the drama list</label>
               <input type="text" name="drama" class="form-control" />
-              <label for="no_ep" class="card-title">Number of episodes</label>
+              <label for="season" class="card-title">Season on board</label>
+              <input type="Number" name="season" class="form-control" />
+              <label for="no_ep" class="card-title">Current epi no</label>
               <input type="Number" name="no_ep" class="form-control" />
               <button type="submit" class="btn btn-primary">Add</button>
             </form>

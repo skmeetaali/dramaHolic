@@ -8,11 +8,11 @@ from traceback import print_exc
 
 
 
-
-
 # Create your views here.
 def home(request) :
     return  render(request, "holics/home.html")
+
+
 
 def add(request):
     return render(request, "holics/api.html", {
@@ -23,6 +23,7 @@ def add(request):
         "watch_drama_status": user_drama_watching_status.objects.all(),
         "watch_anime_status" : user_anime_watching_status.objects.all()
     })
+
 
 def showList(request):
         
@@ -49,8 +50,6 @@ def fetch_pop_movies(request):
             "accept": "application/json",
             "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36"
         }
-
-
 
         params = {
             "api_key": API_KEY,
@@ -214,6 +213,7 @@ def add_anime(request):
     
 def add_manga(request):
     if request.method == 'POST': 
+        
         manga_title = request.POST.get("manga")
         season = request.POST.get("season_no")
         curr_ep = request.POST.get("curr_ep")
@@ -326,3 +326,61 @@ def add_manga(request):
         "watch_drama_status": user_drama_watching_status.objects.all(),
         "watch_anime_status" : user_anime_watching_status.objects.all()
     })
+    
+ 
+ 
+from datetime import date , datetime
+def add_drama(request):
+    if request.method == "POST":
+        
+        drama_name = request.POST.get("drama")
+        last_watched_ep = request.POST.get("no_ep")
+        season = request.POST.get("season")
+        
+        base = "https://www.episodate.com/api"
+        url = f"{base}/search"
+        
+        try:
+            response = requests.get(
+                url,
+                params={"q":drama_name},
+                timeout=10
+            )
+            
+            if response.status_code == 200:
+                data = response.json()
+                id = data["tv_shows"][0]["id"]
+                url = f"{base}/show-details"  
+                tv_show = data["tv_shows"][0]
+                title = tv_show["name"]
+                status = tv_show["status"]
+                thumbnail_img = tv_show["image_thumbnail_path"]
+                
+                  
+                response = requests.get(
+                    url,
+                    params={"q":id},
+                    timeout=10
+                )
+                
+                if response.status_code == 200:
+                    show_details = response.json()
+                    episodes = show_details["tvShow"]["episodes"]
+                    
+                    for ep in episodes:
+
+                        date = ep["air_date"]
+                        date = datetime.strptime(date, "%Y-%m-%d %H:%M:%S")
+                        ep_date = date.date()
+                        if ep_date > date.today().date():
+                            next_ep_release_date = ep_date
+                            next_ep_no = ep["episode"]
+                            last_released_ep = next_ep_no - 1
+                                
+                    drama = dramas(title= )
+                else:
+                    print(response.status_code)
+                    
+                    
+        except Exception as e:
+            print(e)
