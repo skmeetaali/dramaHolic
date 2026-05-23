@@ -327,5 +327,3 @@ def add_manga(request):
     })
     
     
-def DELETE(request, ID):
-    
