@@ -366,21 +366,64 @@ def add_drama(request):
                 if response.status_code == 200:
                     show_details = response.json()
                     episodes = show_details["tvShow"]["episodes"]
-                    
-                    for ep in episodes:
-
-                        date = ep["air_date"]
-                        date = datetime.strptime(date, "%Y-%m-%d %H:%M:%S")
-                        ep_date = date.date()
-                        if ep_date > date.today().date():
-                            next_ep_release_date = ep_date
-                            next_ep_no = ep["episode"]
-                            last_released_ep = next_ep_no - 1
+                    last_released_ep = None
+                    next_ep_release_date = None
+                    if tv_show["status"] == "Running":
+                        for ep in episodes:
+                            if ep["season"] == season:
+                                date = ep["air_date"]
+                                date = datetime.strptime(date, "%Y-%m-%d %H:%M:%S")
+                                ep_date = date.date()
+                                if ep_date > date.today().date():
+                                    next_ep_release_date = ep_date
+                                    next_ep_no = ep["episode"]
+                                    last_released_ep = next_ep_no - 1
+                                    break
+                            if ep["season"] > int(season):
+                                last_released_ep = 0
+                                for ep in episodes:
+                                    if ep["season"] == season:
+                                        if last_released_ep < ep["episode"]:
+                                            last_released_ep = ep["episode"]
+                                break
+                                            
+                    elif tv_show["status"] == "Ended":
+                        max_season = 0
+                        last_released_ep = 0
+                        next_ep_release_date = None
+                        for ep in episodes:
+                            if ep["season"] > max_season:
+                                max_season = ep["season"]
+                        for ep in episodes:
+                            if ep["season"] == max_season:
+                                if last_released_ep < ep["episode"]:
+                                    last_released_ep = ep["episode"]
                                 
-                    drama = dramas(title= )
+                                    
+                    if status == "Ended":
+                        total_ep = last_released_ep
+                    else:
+                        total_ep = None
+                        
+                    d = dramas(title = title, thumbnail_img = thumbnail_img, )
+                    d.save()
+                    
+                    w = user_drama_watching_status(drama = d, season = season, last_watched_ep = last_watched_ep, last_released_ep = last_released_ep,next_ep_release_date = next_ep_release_date)
+                    w.save()
+                                
                 else:
                     print(response.status_code)
-                    
-                    
+                                        
         except Exception as e:
             print(e)
+            print_exc()
+            
+    return render(request, "holics/library.html", {
+    "dramas" : dramas.objects.all(),
+    "animes": animes.objects.all(),
+    "mangas": mangas.objects.all(),
+    "watch_manga_status" : user_manga_watching_status.objects.all(),
+    "watch_drama_status": user_drama_watching_status.objects.all(),
+    "watch_anime_status" : user_anime_watching_status.objects.all()
+    })
+    
