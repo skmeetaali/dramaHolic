@@ -8,17 +8,18 @@
   <div class="program">
     {% for d in dramas %}
     <div class="card col-lg-4 col-sm-12">
-      <img src="https://image.tmdb.org/t/p/w500/{{ d.thumbnail_img }}" alt="drama picture" class="card-img-top" />
+      <img src="{{ d.thumbnail_img }}" alt="drama picture" class="card-img-top" />
       <div class="card-body">
         <div class="card-title">
-          Title :{{ d.title }} Number of episodes : {{ d.total_ep }}
-          url : {{ d.thumbnil_img }}
+          Title :{{ d.title }} 
         </div>
-        {% for w in d.watchstat.all %}
+        {% for w in d.drama_watchstat.all %}
         Last watched ep : {{ w.last_watched_ep }}
         <br>
-        Last released : {{ w.last_released_ep }}
-        {% if w.last_watched_ep < w.last_released_ep %} <button class="btn btn-success">New</button>
+        Last released : S{{ max_s  }}E{{ w.last_released_ep }}
+        <br>
+        Next ep on: {{ w.next_ep_release_date }}
+        {% if w.last_watched_ep < w.last_released_ep or w.season < max_s %} <button class="btn btn-success">New</button>
           {% endif %}
           {% empty %}
           <p></p>

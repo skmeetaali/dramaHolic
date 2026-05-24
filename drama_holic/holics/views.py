@@ -355,8 +355,10 @@ def add_drama(request):
                 title = tv_show["name"]
                 status = tv_show["status"]
                 thumbnail_img = tv_show["image_thumbnail_path"]
+                print(thumbnail_img)
                 
-                  
+                season = 1
+                    
                 response = requests.get(
                     url,
                     params={"q":id},
@@ -366,8 +368,7 @@ def add_drama(request):
                 if response.status_code == 200:
                     show_details = response.json()
                     episodes = show_details["tvShow"]["episodes"]
-                    last_released_ep = None
-                    next_ep_release_date = None
+                    max_season = 0
                     if tv_show["status"] == "Running":
                         for ep in episodes:
                             if ep["season"] == season:
@@ -386,9 +387,13 @@ def add_drama(request):
                                         if last_released_ep < ep["episode"]:
                                             last_released_ep = ep["episode"]
                                 break
+                            
+                                                                
+                        for ep in episodes:
+                            if ep["season"] > max_season:
+                                max_season = ep["season"]
                                             
                     elif tv_show["status"] == "Ended":
-                        max_season = 0
                         last_released_ep = 0
                         next_ep_release_date = None
                         for ep in episodes:
@@ -405,6 +410,10 @@ def add_drama(request):
                     else:
                         total_ep = None
                         
+                    print(max_season)
+                    print(f"last released {last_released_ep}")
+                    print(f"next rel date{next_ep_release_date}")
+                        
                     d = dramas(title = title, thumbnail_img = thumbnail_img, )
                     d.save()
                     
@@ -417,13 +426,15 @@ def add_drama(request):
         except Exception as e:
             print(e)
             print_exc()
-            
+    if max_season == None:
+        max_season = 0   
     return render(request, "holics/library.html", {
     "dramas" : dramas.objects.all(),
     "animes": animes.objects.all(),
     "mangas": mangas.objects.all(),
     "watch_manga_status" : user_manga_watching_status.objects.all(),
     "watch_drama_status": user_drama_watching_status.objects.all(),
-    "watch_anime_status" : user_anime_watching_status.objects.all()
+    "watch_anime_status" : user_anime_watching_status.objects.all(),
+    "max_s" : max_season
     })
     
