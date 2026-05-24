@@ -414,7 +414,7 @@ def add_drama(request):
                     print(f"last released {last_released_ep}")
                     print(f"next rel date{next_ep_release_date}")
                         
-                    d = dramas(title = title, thumbnail_img = thumbnail_img, )
+                    d = dramas(title = title, thumbnail_img = thumbnail_img,max_season = max_season )
                     d.save()
                     
                     w = user_drama_watching_status(drama = d, season = season, last_watched_ep = last_watched_ep, last_released_ep = last_released_ep,next_ep_release_date = next_ep_release_date)
@@ -426,8 +426,7 @@ def add_drama(request):
         except Exception as e:
             print(e)
             print_exc()
-    if max_season == None:
-        max_season = 0   
+   
     return render(request, "holics/library.html", {
     "dramas" : dramas.objects.all(),
     "animes": animes.objects.all(),
@@ -435,6 +434,5 @@ def add_drama(request):
     "watch_manga_status" : user_manga_watching_status.objects.all(),
     "watch_drama_status": user_drama_watching_status.objects.all(),
     "watch_anime_status" : user_anime_watching_status.objects.all(),
-    "max_s" : max_season
     })
     

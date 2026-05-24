@@ -9,6 +9,7 @@ class dramas(models.Model):
     original_title = models.CharField(max_length=512, null=True, blank=True)
     total_ep = models.IntegerField(null=True, blank=True)
     thumbnail_img = models.URLField(null=True)
+    max_season = models.IntegerField(null=True, blank=True)
  
     def __str__(self):
         return f"{self.id} :  {self.title}"

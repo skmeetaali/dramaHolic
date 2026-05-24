@@ -14,12 +14,12 @@
           Title :{{ d.title }} 
         </div>
         {% for w in d.drama_watchstat.all %}
-        Last watched ep : {{ w.last_watched_ep }}
+        Last watched :E{{ w.last_watched_ep }}
         <br>
-        Last released : S{{ max_s  }}E{{ w.last_released_ep }}
+        Last released : S{{ d.max_season }} E{{ w.last_released_ep }}
         <br>
         Next ep on: {{ w.next_ep_release_date }}
-        {% if w.last_watched_ep < w.last_released_ep or w.season < max_s %} <button class="btn btn-success">New</button>
+        {% if w.last_watched_ep < w.last_released_ep or w.season < d.max_season %} <button class="btn btn-success">New</button>
           {% endif %}
           {% empty %}
           <p></p>
