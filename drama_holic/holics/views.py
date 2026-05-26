@@ -109,69 +109,21 @@ def showList(request):
         "watch_anime_status" : user_anime_watching_status.objects.all(),
         "watch_movie_status" : user_movie_data.objects.all()
     })
-
-
-def fetch_pop_movies(request):
-
-    if request.method == "POST":
-        movie = request.POST.get('drama')
-        no_ep = request.POST.get('no_ep')
-        
-        API_KEY = 'bb8bca8b23c3cd367e4427c2e163e971'
-        BASE_URL = "https://api.themoviedb.org/3"
-
-        headers = {
-            "accept": "application/json",
-            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36"
-        }
-
-        params = {
-            "api_key": API_KEY,
-            "query": movie
-        }
-        response = ""
-        url = f'{BASE_URL}/search/movie'
-        while response == "":
-            try :
-                response = requests.get(url, headers=headers, params=params)
-                if response.status_code == 200:
-                    if response.json():
-                        data = response.json()
-                        if data["results"][0]:
-                            first_movie = data["results"][0]
-                            title = first_movie["title"]
-                            overview = first_movie["overview"]
-                            poster = first_movie["poster_path"]
-                            if movie != None and movie != "":
-                                d = dramas(title = title, total_ep = no_ep,  thumbnail_img = poster)
-                                d.save()
-                        else:
-                            return HttpResponse("No drama found")
-                    else:
-                        return HttpResponse("No json data")
-                else:
-                    print(response.status_code)
-                    print("error fetching data")
-            except Exception as e:
-                print ('type is:', e.__class__.__name__)
-                print_exc()
-
-
-        
-    return render(request, "holics/add.html", {
-        "dramas" : dramas.objects.all(),
-        "animes": animes.objects.all(),
-        "manga": mangas.objects.all(),
-        "watch_manga_status" : user_manga_watching_status.objects.all(),
-        "watch_drama_status": user_drama_watching_status.objects.all(),
-        "watch_anime_status" : user_anime_watching_status.objects.all(),
-    })
     
 
 def add_movies(request):
     if request.method == "POST":
         movie_title = request.POST.get("movie")
-        watch_status = request.POST.get("watch_status")
+        watch_status_input = request.POST.get("watch_status")
+        
+        status_map = {
+            "1": "Completed",
+            "2": "Plan to watch",
+            "3": "Dropped",
+            "Ongoing": "Ongoing"
+        }
+        watch_status = status_map.get(watch_status_input, watch_status_input)
+        
         like = True if request.POST.get("fav") else False
 
         API_KEY = 'bb8bca8b23c3cd367e4427c2e163e971'
@@ -195,8 +147,9 @@ def add_movies(request):
                     first_movie = data["results"][0]
                     title = first_movie.get("title")
                     poster = first_movie.get("poster_path")
+                    release_date = first_movie["release_date"]
                     if title:
-                        movie = movies(title=title, thumbnail_img=poster)
+                        movie = movies(title=title, thumbnail_img=poster, release_date = release_date)
                         movie.save()
                         watch_status = user_movie_data(movies=movie, watch_status=watch_status, like=like)
                         watch_status.save()

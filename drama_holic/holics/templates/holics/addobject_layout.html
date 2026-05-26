@@ -94,7 +94,7 @@
           <img src="https://i.pinimg.com/originals/b0/7b/f9/b07bf9d60e47c231f89c10af6dfa060d.jpg" alt="drama picture"
             class="card-img-top" />
           <div class="card-body">
-            <form action="{% url 'holics:api' %}" method="post">
+            <form action="{% url 'holics:add_drama' %}" method="post">
               {% csrf_token %}
               <label for="drama" class="card-title">Add to the drama list</label>
               <input type="text" name="drama" class="form-control" />
