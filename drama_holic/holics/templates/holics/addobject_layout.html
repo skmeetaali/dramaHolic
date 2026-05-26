@@ -107,6 +107,7 @@
           </div>
         </div>
 
+
         <div class="card col-lg-4 col-sm-12">
           <img src="https://iwatchitall.com/wp-content/uploads/2021/12/Mo-Dao-Zu-Shi-729x1024.jpg" alt="drama picture"
             class="card-img-top" />
@@ -149,14 +150,23 @@
 
 
         <div class="card col-lg-4 col-sm-12">
-          <img
-            src="http://static.boredpanda.com/blog/wp-content/uploads/2016/10/harry-potter-book-covers-illustration-olly-moss-3.jpg"
-            alt="drama picture" class="card-img-top" />
+          <img src="https://image.adsoftheworld.com/ukrohp55ai5bgkqjd292yelkceq5" alt="drama picture"
+            class="card-img-top" />
           <div class="card-body">
-            <form action="{% url 'holics:showList' %}" method="post">
+            <form action="{% url 'holics:add_movie' %}" method="post">
               {% csrf_token %}
-              <label for="drama" class="form-label">Add to the Novel list</label>
-              <input type="text" name="novel" class="form-control" />
+              <label for="movie" class="form-label">Add to the Movie list</label>
+              <input type="text" name="movie" class="form-control" />
+              <label for=""watch_status>Your watch status </label>
+              <select class="form-select" aria-label="Default select example" id="watch_status" name="watch_status">
+                <option selected>Ongoing</option>
+                <option value="1">Completed</option>
+                <option value="2">Plan to watch</option>
+                <option value="3">Dropped</option>
+              </select>
+              <label class="form-check-label" for="fav">Add to Favorites</label>
+              <input class="form-check-input" type="checkbox" name="fav" id="fav" />
+              <br> <br>
               <button type="submit" class="btn btn-primary">Add</button>
             </form>
           </div>

@@ -3,8 +3,7 @@
 <div class=" outer_right row">
   <h1 style="background-color: white;color: black;">Your current watch lis</h1>
   <br><br>
-  <h2 style="background-color: grey;">Movies List</h2>
-
+  <h2 style="background-color: grey;">Drama List </h2>
   <div class="program">
     {% for d in dramas %}
     <div class="card col-lg-4 col-sm-12">
@@ -14,7 +13,7 @@
           Title :{{ d.title }} 
         </div>
         {% for w in d.drama_watchstat.all %}
-        Last watched :E{{ w.last_watched_ep }}
+        Last watched :S{{ w.season }} E{{ w.last_watched_ep }}
         <br>
         Last released : S{{ d.max_season }} E{{ w.last_released_ep }}
         <br>
@@ -90,6 +89,32 @@
     {% endfor %}
   </div>
 
+  {% if movies %}
+  <h2 style="background-color: grey;">Movie List</h2>
+  <div class="program">
+    {% for movie in movies %}
+    <div class="card col-lg-4 col-sm-12">
+      <img src="https://image.tmdb.org/t/p/original/{{ movie.thumbnail_img }}" alt="movie poster" class="card-img-top" />
+      <div class="card-body">
+        <div class="card-title">
+          Title :{{ movie.title }}
+        </div>
+        <div>
+          Release date : {{ movie.release_date }}
+        </div>
+        {% for w in movie.movie_notes.all %}
+        status : {{ w.watch_status }}
+        <br>
+        {% if w.like %} <button class="btn btn-warning">Liked</button>
+          {% endif %}
+          {% empty %}
+          <p></p>
+          {% endfor %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
 
 
   <div class="redirect_button">

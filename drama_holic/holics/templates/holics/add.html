@@ -5,7 +5,7 @@
 
   {% for d in dramas %}
   <div class="card col-lg-4 col-sm-12">
-    <img src="https://image.tmdb.org/t/p/w500/{{ d.thumbnail_img }}" alt="drama picture"
+    <img src="{{ d.thumbnail_img }}" alt="drama picture"
       class="card-img-top" />
     <div class="card-body">
       <div class="card-title">
@@ -78,6 +78,32 @@
   {% endfor %}
 
 
+  {% if movies %}
+  <h2 style="background-color: grey;">Movie List</h2>
+  <div class="program">
+    {% for movie in movies %}
+    <div class="card col-lg-4 col-sm-12">
+      <img src="{{ movie.thumbnail_img }}" alt="movie poster" class="card-img-top" />
+      <div class="card-body">
+        <div class="card-title">
+          Title :{{ movie.title }}
+        </div>
+        <div>
+          Release date : {{ movie.release_date }}
+        </div>
+        {% for w in movie.movie_notes.all %}
+        status : {{ w.watch_status }}
+        <br>
+        {% if w.like %} <button class="btn btn-warning">Liked</button>
+          {% endif %}
+          {% empty %}
+          <p></p>
+          {% endfor %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
   
   <div class="redirect_button">
     <button class="btn btn-primary">

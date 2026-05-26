@@ -9,5 +9,6 @@ urlpatterns = [
     path("showList/", views.showList, name="showList"),
     path("api/", views.add_drama, name="api"),
     path("add_anime/", views.add_anime, name="add_anime"),
+    path("add_movie", views.add_movies, name="add_movie"),
     path("add_manga", views.add_manga, name="add_manga")
 ]
