@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.urls import path
-from .forms import CustomUserCreationForm, CustomUserChangeForm
+from . import views
 
 urlpatterns = [
-    path("signup/", CustomUserCreationForm , name="signup"),
+    path("signup/", views.signup , name="signup"),
 ]
