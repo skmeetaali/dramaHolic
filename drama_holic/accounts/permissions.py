@@ -12,7 +12,7 @@ def user_gains_perms(user_id):
 
     content_type = ContentType.objects.get_for_model(animes)
     permission = Permission.objects.get(
-        codename="add_animes",
+        codename="change_animes",
         content_type=content_type,
     )
     user.user_permissions.add(permission)
