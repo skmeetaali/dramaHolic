@@ -3,11 +3,15 @@
 <div class=" outer_right row">
   <h1 style="background-color: white;color: black;">Your current watch lis</h1>
   <br><br>
+
+
  {% if dramas %}
   <h2 style="background-color: grey;">Drama List </h2>
   <div class="program">
+
     {% for d in dramas %}
     <div class="card col-lg-4 col-sm-12">
+      <a href="{% url 'holics:delete_drama' d.id %}"> <i class="fa-solid fa-trash" style="color: red;position: absolute;top: 10px;right: 10px;"></i> </a>
       <img src="{{ d.thumbnail_img }}" alt="drama picture" class="card-img-top" />
       <div class="card-body">
         <div class="card-title">
@@ -24,7 +28,6 @@
           {% empty %}
           <p></p>
           {% endfor %}
-
       </div>
     </div>
     {% endfor %}
@@ -39,6 +42,7 @@
   <div class="program">
     {% for anime in animes %}
     <div class="card col-lg-4 col-sm-12">
+      <a href="{% url 'holics:delete_anime' anime.id %}"> <i class="fa-solid fa-trash" style="color: red;position: absolute;top: 10px;right: 10px;"></i> </a>
       <img src="{{ anime.thumbnail_img }}" alt="anime picture" class="card-img-top" />
       <div class="card-body">
         <div class="card-title">
@@ -69,6 +73,7 @@
   <div class="program">
     {% for manga in mangas %}
     <div class="card col-lg-4 col-sm-12">
+      <a href="{% url 'holics:delete_manga' manga.id %}"> <i class="fa-solid fa-trash" style="color: red;position: absolute;top: 10px;right: 10px;"></i> </a>
       <img src="{{ manga.thumbnail_img }}" alt="anime picture" class="card-img-top" />
       <div class="card-body">
         <div class="card-title">
@@ -99,6 +104,7 @@
   <div class="program">
     {% for movie in movies %}
     <div class="card col-lg-4 col-sm-12">
+      <a href="{% url 'holics:delete_movie' movie.id %}"> <i class="fa-solid fa-trash" style="color: red;position: absolute;top: 10px;right: 10px;"></i> </a>
       <img src="https://image.tmdb.org/t/p/original/{{ movie.thumbnail_img }}" alt="movie poster" class="card-img-top" />
       <div class="card-body">
         <div class="card-title">

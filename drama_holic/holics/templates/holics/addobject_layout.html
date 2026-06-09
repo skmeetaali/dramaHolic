@@ -1,89 +1,97 @@
 <!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Library</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+      integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <style>
+      body {
+        color: white;
+      }
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Library</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" />
-  <style>
-    body {
-      color: white;
-    }
+      .outermost {
+        display: grid;
+        grid-template-columns: 40% 60%;
+      }
 
-    .outermost {
-      display: grid;
-      grid-template-columns: 40% 60%;
-    }
+      .add {
+        color: white;
+        padding: 20px;
+        position: fixed;
+        max-width: inherit;
+        width: 40%;
+      }
 
-    .add {
-      color: white;
-      padding: 20px;
-      position: fixed;
-      max-width: inherit;
-      width: 40%;
-    }
+      .cards {
+        display: flex;
+        flex-wrap: wrap;
+        background-color: rgb(33, 33, 33);
+        overflow-y: scroll;
+        -ms-overflow-style: none;
+        height: 900px;
+        scrollbar-width: none;
+        width: 100%;
+        align-items: stretch;
+        gap: 20px;
+      }
 
-    .cards {
-      display: flex;
-      flex-wrap: wrap;
-      background-color: rgb(33, 33, 33);
-      overflow-y: scroll;
-      -ms-overflow-style: none;
-      height: 900px;
-      scrollbar-width: none;
-      width: 100%;
-      align-items: stretch;
-      gap: 20px;
-    }
+      .cards > div {
+        padding: 2px;
+        margin: 20px;
+        font-weight: 500;
+      }
 
-    .cards>div {
-      padding: 2px;
-      margin: 20px;
-      font-weight: 500;
+      .cards_list {
+        display: flex;
+        background-color: rgb(33, 33, 33);
+        flex-wrap: wrap;
+        width: 100%;
+        color: white;
+        margin: 10px;
+        position: fixed;
+        right: 0;
+        overflow-y: scroll;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+        width: 60%;
+        height: 900px;
+        align-items: stretch;
+        gap: 20px;
+      }
 
-    }
+      .cards_list > div {
+        padding: 2px;
+        margin: 20px;
+        font-weight: 500;
+        height: auto;
+      }
 
-    .cards_list {
-      display: flex;
-      background-color: rgb(33, 33, 33);
-      flex-wrap: wrap;
-      width: 100%;
-      color: white;
-      margin: 10px;
-      position: fixed;
-      right: 0;
-      overflow-y: scroll;
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-      width: 60%;
-      height: 900px;
-      align-items: stretch;
-      gap: 20px;
-    }
+      .card {
+        width: 250px;
+        margin-top: 20px;
+        height: auto;
+      }
 
-    .cards_list>div {
-      padding: 2px;
-      margin: 20px;
-      font-weight: 500;
-      height: auto;
-    }
+      .cards > .card {
+        height: auto;
+      }
 
-    .card {
-      width: 250px;
-      margin-top: 20px;
-      height: auto;
-    }
-
-    .cards>.card {
-      height: auto;
-    }
-
-    .cards_list>.card {
-      height: auto
-    }
-  </style>
-</head>
+      .cards_list > .card {
+        height: auto;
+      }
+    </style>
+  </head>
 
   <nav class="nav">
     <h4>{{ request.user.username }}</h4>
@@ -91,107 +99,135 @@
       {% csrf_token %}
       <button type="submit" class="btn">Log out</button>
     </form>
+    <h4><a href="{% url 'holics:showList' %}">Showlist</a></h4>
   </nav>
 
-
-<body style="background-color: black; color: white">
-  <div class="outermost">
-    <div class="add">
-      <h2>Still more to watch? add em!</h2>
-      <div class="cards row">
-        <div class="card col-lg-4 col-sm-12">
-          <img src="https://i.pinimg.com/originals/b0/7b/f9/b07bf9d60e47c231f89c10af6dfa060d.jpg" alt="drama picture"
-            class="card-img-top" />
-          <div class="card-body">
-            <form action="{% url 'holics:add_drama' %}" method="post">
-              {% csrf_token %}
-              <label for="drama" class="card-title">Add to the drama list</label>
-              <input type="text" name="drama" class="form-control" />
-              <label for="season" class="card-title">Season on board</label>
-              <input type="Number" name="season" class="form-control" />
-              <label for="no_ep" class="card-title">Current epi no</label>
-              <input type="Number" name="no_ep" class="form-control" />
-              <button type="submit" class="btn btn-primary">Add</button>
-            </form>
+  <body style="background-color: black; color: white">
+    <div class="outermost">
+      <div class="add">
+        <h2>Still more to watch? add em!</h2>
+        <div class="cards row">
+          <div class="card col-lg-4 col-sm-12">
+            <img
+              src="https://i.pinimg.com/originals/b0/7b/f9/b07bf9d60e47c231f89c10af6dfa060d.jpg"
+              alt="drama picture"
+              class="card-img-top"
+            />
+            <div class="card-body">
+              <form action="{% url 'holics:add_drama' %}" method="post">
+                {% csrf_token %}
+                <label for="drama" class="card-title"
+                  >Add to the drama list</label
+                >
+                <input type="text" name="drama" class="form-control" />
+                <label for="season" class="card-title">Season on board</label>
+                <input type="Number" name="season" class="form-control" />
+                <label for="no_ep" class="card-title">Current epi no</label>
+                <input type="Number" name="no_ep" class="form-control" />
+                <button type="submit" class="btn btn-primary">Add</button>
+              </form>
+            </div>
           </div>
-        </div>
 
-
-        <div class="card col-lg-4 col-sm-12">
-          <img src="https://iwatchitall.com/wp-content/uploads/2021/12/Mo-Dao-Zu-Shi-729x1024.jpg" alt="drama picture"
-            class="card-img-top" />
-          <div class="card-body">
-            <form action="{% url 'holics:add_manga' %}" method="post">
-              {% csrf_token %}
-              <label for="manga" class="form-label">Add to the Manga list</label>
-              <input type="text" name="manga" class="form-control" />
-              <label for="season_no" class="card-title">Season</label>
-              <input type="Number" name="season_no" class="form-control" />
-              <label for="curr_ep" class="card-title">Your ima no episode?</label>
-              <input type="Number" name="curr_ep" class="form-control" />
-              <button type="submit" class="btn btn-primary">Add</button>
-            </form>
+          <div class="card col-lg-4 col-sm-12">
+            <img
+              src="https://iwatchitall.com/wp-content/uploads/2021/12/Mo-Dao-Zu-Shi-729x1024.jpg"
+              alt="drama picture"
+              class="card-img-top"
+            />
+            <div class="card-body">
+              <form action="{% url 'holics:add_manga' %}" method="post">
+                {% csrf_token %}
+                <label for="manga" class="form-label"
+                  >Add to the Manga list</label
+                >
+                <input type="text" name="manga" class="form-control" />
+                <label for="season_no" class="card-title">Season</label>
+                <input type="Number" name="season_no" class="form-control" />
+                <label for="curr_ep" class="card-title"
+                  >Your ima no episode?</label
+                >
+                <input type="Number" name="curr_ep" class="form-control" />
+                <button type="submit" class="btn btn-primary">Add</button>
+              </form>
+            </div>
           </div>
-        </div>
 
-
-
-
-        <div class="card col-lg-4 col-sm-12">
-          <img src="https://i.pinimg.com/originals/45/bb/e4/45bbe4b282f49903338cb71c03ed0166.png" alt="drama picture"
-            class="card-img-top" />
-          <div class="card-body">
-            <form action="{% url 'holics:add_anime' %}" method="post">
-              {% csrf_token %}
-              <label for="anime" class="form-label">Add to the Anime list</label>
-              <input type="text" name="anime" class="form-control" />
-              <label for="season_no" class="card-title">Season</label>
-              <input type="Number" name="season_no" class="form-control" />
-              <label for="curr_ep" class="card-title">Your ima no episode?</label>
-              <input type="Number" name="curr_ep" class="form-control" />
-              <button type="submit" class="btn btn-primary">Add</button>
-            </form>
+          <div class="card col-lg-4 col-sm-12">
+            <img
+              src="https://i.pinimg.com/originals/45/bb/e4/45bbe4b282f49903338cb71c03ed0166.png"
+              alt="drama picture"
+              class="card-img-top"
+            />
+            <div class="card-body">
+              <form action="{% url 'holics:add_anime' %}" method="post">
+                {% csrf_token %}
+                <label for="anime" class="form-label"
+                  >Add to the Anime list</label
+                >
+                <input type="text" name="anime" class="form-control" />
+                <label for="season_no" class="card-title">Season</label>
+                <input type="Number" name="season_no" class="form-control" />
+                <label for="curr_ep" class="card-title"
+                  >Your ima no episode?</label
+                >
+                <input type="Number" name="curr_ep" class="form-control" />
+                <button type="submit" class="btn btn-primary">Add</button>
+              </form>
+            </div>
           </div>
-        </div>
 
-
-
-
-
-        <div class="card col-lg-4 col-sm-12">
-          <img src="https://image.adsoftheworld.com/ukrohp55ai5bgkqjd292yelkceq5" alt="drama picture"
-            class="card-img-top" />
-          <div class="card-body">
-            <form action="{% url 'holics:add_movie' %}" method="post">
-              {% csrf_token %}
-              <label for="movie" class="form-label">Add to the Movie list</label>
-              <input type="text" name="movie" class="form-control" />
-              <label for=""watch_status>Your watch status </label>
-              <select class="form-select" aria-label="Default select example" id="watch_status" name="watch_status">
-                <option selected>Ongoing</option>
-                <option value="1">Completed</option>
-                <option value="2">Plan to watch</option>
-                <option value="3">Dropped</option>
-              </select>
-              <label class="form-check-label" for="fav">Add to Favorites</label>
-              <input class="form-check-input" type="checkbox" name="fav" id="fav" />
-              <br> <br>
-              <button type="submit" class="btn btn-primary">Add</button>
-            </form>
+          <div class="card col-lg-4 col-sm-12">
+            <img
+              src="https://image.adsoftheworld.com/ukrohp55ai5bgkqjd292yelkceq5"
+              alt="drama picture"
+              class="card-img-top"
+            />
+            <div class="card-body">
+              <form action="{% url 'holics:add_movie' %}" method="post">
+                {% csrf_token %}
+                <label for="movie" class="form-label"
+                  >Add to the Movie list</label
+                >
+                <input type="text" name="movie" class="form-control" />
+                <label for="" watch_status>Your watch status </label>
+                <select
+                  class="form-select"
+                  aria-label="Default select example"
+                  id="watch_status"
+                  name="watch_status"
+                >
+                  <option selected>Ongoing</option>
+                  <option value="1">Completed</option>
+                  <option value="2">Plan to watch</option>
+                  <option value="3">Dropped</option>
+                </select>
+                <label class="form-check-label" for="fav"
+                  >Add to Favorites</label
+                >
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  name="fav"
+                  id="fav"
+                />
+                <br />
+                <br />
+                <button type="submit" class="btn btn-primary">Add</button>
+              </form>
+            </div>
           </div>
+          <div class="redirect_button">
+            <button>
+              <a href="{% url 'holics:showList'  %}"> Add </a>
+            </button>
+          </div>
+          <br /><br />
+          <br /><br />
         </div>
-        <div class="redirect_button">
-          <button>
-            <a href="{% url 'holics:showList'  %}"> Add </a>
-          </button>
-        </div>
-        <br /><br />
-        <br /><br />
       </div>
+
+      {% block body %} {% endblock %}
     </div>
-
-    {% block body %} {% endblock %}
-  </div>
-</body>
-
+  </body>
 </html>

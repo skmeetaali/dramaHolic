@@ -159,7 +159,7 @@ def add_movies(request):
             print(e)
             print_exc()
 
-    return render(request, "holics/library.html", {
+    return render(request, "holics/add.html", {
         "dramas" : dramas.objects.filter(user = request.user),
         "animes": animes.objects.filter(user = request.user),
         "mangas": mangas.objects.filter(user = request.user),
@@ -276,7 +276,7 @@ def add_anime(request):
         
         
         
-    return render(request, "holics/library.html", {
+    return render(request, "holics/add.html", {
         "dramas" : dramas.objects.filter(user = request.user),
         "animes": animes.objects.filter(user = request.user),
         "mangas": mangas.objects.filter(user = request.user),
@@ -397,7 +397,7 @@ def add_manga(request):
         
         
                 
-    return render(request, "holics/library.html", {
+    return render(request, "holics/add.html", {
         "dramas" : dramas.objects.filter(user = request.user),
         "animes": animes.objects.filter(user = request.user),
         "mangas": mangas.objects.filter(user = request.user),
@@ -504,6 +504,20 @@ def add_drama(request):
             print(e)
             print_exc()
    
+    return render(request, "holics/add.html", {
+        "dramas" : dramas.objects.filter(user = request.user),
+        "animes": animes.objects.filter(user = request.user),
+        "mangas": mangas.objects.filter(user = request.user),
+        "movies": movies.objects.filter(user = request.user),
+        "watch_manga_status" : user_manga_watching_status.objects.all(),
+        "watch_drama_status": user_drama_watching_status.objects.all(),
+        "watch_anime_status" : user_anime_watching_status.objects.all(),
+        "watch_movie_status" : user_movie_data.objects.all(),
+    })
+    
+def delete_drama(request, id):
+    d = dramas.objects.filter(id = id)
+    d.delete()
     return render(request, "holics/library.html", {
         "dramas" : dramas.objects.filter(user = request.user),
         "animes": animes.objects.filter(user = request.user),
@@ -515,3 +529,44 @@ def add_drama(request):
         "watch_movie_status" : user_movie_data.objects.all(),
     })
     
+def delete_anime(request, id):
+    a = animes.objects.filter(id = id)
+    a.delete()
+    return render(request, "holics/library.html", {
+        "dramas" : dramas.objects.filter(user = request.user),
+        "animes": animes.objects.filter(user = request.user),
+        "mangas": mangas.objects.filter(user = request.user),
+        "movies": movies.objects.filter(user = request.user),
+        "watch_manga_status" : user_manga_watching_status.objects.all(),
+        "watch_drama_status": user_drama_watching_status.objects.all(),
+        "watch_anime_status" : user_anime_watching_status.objects.all(),
+        "watch_movie_status" : user_movie_data.objects.all(),
+    })
+    
+def delete_manga(request, id):
+    m = mangas.objects.filter(id = id)
+    m.delete()
+    return render(request, "holics/library.html", {
+        "dramas" : dramas.objects.filter(user = request.user),
+        "animes": animes.objects.filter(user = request.user),
+        "mangas": mangas.objects.filter(user = request.user),
+        "movies": movies.objects.filter(user = request.user),
+        "watch_manga_status" : user_manga_watching_status.objects.all(),
+        "watch_drama_status": user_drama_watching_status.objects.all(),
+        "watch_anime_status" : user_anime_watching_status.objects.all(),
+        "watch_movie_status" : user_movie_data.objects.all(),
+    })
+    
+def delete_movie(request, id):
+    mov = movies.objects.filter(id = id)
+    mov.delete()
+    return render(request, "holics/library.html", {
+        "dramas" : dramas.objects.filter(user = request.user),
+        "animes": animes.objects.filter(user = request.user),
+        "mangas": mangas.objects.filter(user = request.user),
+        "movies": movies.objects.filter(user = request.user),
+        "watch_manga_status" : user_manga_watching_status.objects.all(),
+        "watch_drama_status": user_drama_watching_status.objects.all(),
+        "watch_anime_status" : user_anime_watching_status.objects.all(),
+        "watch_movie_status" : user_movie_data.objects.all(),
+    })
