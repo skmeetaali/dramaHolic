@@ -14,5 +14,7 @@ urlpatterns = [
     path("delete_drama/<uuid:id>", views.delete_drama, name="delete_drama"),
     path("delete_anime/<uuid:id>", views.delete_anime, name="delete_anime"),
     path("delete_manga/<uuid:id>", views.delete_manga, name="delete_manga"),
-    path("delete_movie/<uuid:id>", views.delete_movie, name="delete_movie")
+    path("delete_movie/<uuid:id>", views.delete_movie, name="delete_movie"),
+    path("minus_ep_anime/<uuid:id>", views.minus_ep_anime, name="minus_ep_anime"),
+    path("plus_ep_anime/<uuid:id>", views.plus_ep_anime, name="plus_ep_anime"),
 ]

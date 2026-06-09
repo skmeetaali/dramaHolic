@@ -50,11 +50,17 @@
           <br>
           Total of episodes : {{ anime.total_ep }}
         </div>
+
         {% for w in anime.ani_watchstat.all %}
-        Last watched ep : {{ w.last_watched_ep }}
+        Last watched ep :
+        <button  class="btn btn-light" style="font-size: 9px;padding:5px"><a href="{% url 'holics:minus_ep_anime' anime.id %}"><i class="fa-solid fa-minus" style="color: black;"></i></a></button>
+         {{ w.last_watched_ep }} 
+         <button class="btn btn-light" style="font-size: 9px;padding:5px"><a href="{% url 'holics:plus_ep_anime' anime.id %}"><i class="fa-solid fa-plus" style="color: black;"></i></a></button>
+
         <br>
         Last released : {{ w.last_released_ep }}
-        {% if w.last_watched_ep < w.last_released_ep %} <button class="btn btn-success">New</button>
+        {% if w.last_watched_ep < w.last_released_ep %} <button class="btn btn-warning" style="font-size: 10px;position: absolute;top: 10px;left: 10px;">New episode</button>
+        
           {% endif %}
           {% empty %}
           <p></p>
