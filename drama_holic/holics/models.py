@@ -1,9 +1,11 @@
 import uuid
 
 from django.db import models
+from accounts.models import CustomUser
 
 # Create your models here.
 class dramas(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="user_dramas")    
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)    
     title = models.CharField(max_length=512)
     original_title = models.CharField(max_length=512, null=True, blank=True)
@@ -33,6 +35,7 @@ class user_drama_watching_status(models.Model):
         return f"{self.drama} : {self.last_watched_ep} : {self.last_released_ep}"
 
 class animes(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="user_animes")    
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)    
     title = models.CharField(max_length=512)
     original_title = models.CharField(max_length=512, null=True, blank=True)
@@ -54,6 +57,7 @@ class user_anime_watching_status(models.Model):
     
 
 class mangas(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="user_mangas")    
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)    
     title = models.CharField(max_length=512)
     original_title = models.CharField(max_length=512, null=True, blank=True)
@@ -75,6 +79,7 @@ class user_manga_watching_status(models.Model):
     
     
 class movies(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="user_movies")    
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)    
     title = models.CharField(max_length=512)
     original_title = models.CharField(max_length=512, null=True, blank=True)
