@@ -17,4 +17,8 @@ urlpatterns = [
     path("delete_movie/<uuid:id>", views.delete_movie, name="delete_movie"),
     path("minus_ep_anime/<uuid:id>", views.minus_ep_anime, name="minus_ep_anime"),
     path("plus_ep_anime/<uuid:id>", views.plus_ep_anime, name="plus_ep_anime"),
+    path("minus_ep_manga/<uuid:id>", views.minus_ep_manga, name="minus_ep_manga"),
+    path("plus_ep_manga/<uuid:id>", views.plus_ep_manga, name="plus_ep_manga"),
+    path("minus_ep_drama/<uuid:id>", views.minus_ep_drama, name="minus_ep_drama"),
+    path("plus_ep_drama/<uuid:id>", views.plus_ep_drama, name="plus_ep_drama"),
 ]

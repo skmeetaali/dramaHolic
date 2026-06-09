@@ -1,8 +1,11 @@
 {% extends "holics/addobject_layout.html" %}
 {% block body %}
-<div class=" cards_list row">
-  <h2>Your current watch list</h2>
 
+
+<div class=" cards_list row">
+
+  {% if dramas %}
+  <h2>Drama list</h2>
   {% for d in dramas %}
   <div class="card col-lg-4 col-sm-12">
     <img src="{{ d.thumbnail_img }}" alt="drama picture"
@@ -25,11 +28,11 @@
     </div>
   </div>
   {% endfor %}
+{% endif %}
 
 
+  {% if animes %}
   <h2>Anime List</h2>
-  <h2>Your current watch list</h2>
-
   {% for anime in animes %}
   <div class="card col-lg-4 col-sm-12">
     <img src="{{ anime.thumbnail_img }}" alt="anime picture"
@@ -47,14 +50,14 @@
         {% empty %}
         <p></p>
         {% endfor %}
-
     </div>
   </div>
   {% endfor %}
+{% endif %}
 
 
+{% if mangas %}
   <h2>Manga List</h2>
-
   {% for manga in mangas %}
   <div class="card col-lg-4 col-sm-12">
     <img src="{{ manga.thumbnail_img }}" alt="anime picture"
@@ -72,15 +75,13 @@
         {% empty %}
         <p></p>
         {% endfor %}
-
     </div>
   </div>
   {% endfor %}
-
+{% endif %}
 
   {% if movies %}
-  <h2 style="background-color: grey;">Movie List</h2>
-  <div class="program">
+  <h2>Movie List</h2>
     {% for movie in movies %}
     <div class="card col-lg-4 col-sm-12">
       <img src="https://image.tmdb.org/t/p/original/{{ movie.thumbnail_img }}" alt="movie poster" class="card-img-top" />
@@ -88,9 +89,7 @@
         <div class="card-title">
           Title :{{ movie.title }}
         </div>
-        <div>
           Release date : {{ movie.release_date }}
-        </div>
         {% for w in movie.movie_notes.all %}
         status : {{ w.watch_status }}
         <br>
@@ -102,7 +101,6 @@
       </div>
     </div>
     {% endfor %}
-  </div>
   {% endif %}
   
   <div class="redirect_button">
@@ -113,6 +111,5 @@
     </button>
   </div>
   
-</div>
 </div>
 {% endblock %}

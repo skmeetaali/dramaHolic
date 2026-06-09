@@ -602,3 +602,69 @@ def plus_ep_anime(request, id):
         "watch_anime_status" : user_anime_watching_status.objects.all(),
         "watch_movie_status" : user_movie_data.objects.all(),
     })
+    
+    
+def minus_ep_drama(request, id):
+    drama = dramas.objects.filter(id = id)[0]
+    stat = drama.drama_watchstat.all()[0]
+    stat.last_watched_ep -= 1
+    stat.save()
+    return render(request, "holics/library.html", {
+        "dramas" : dramas.objects.filter(user = request.user),
+        "animes": animes.objects.filter(user = request.user),
+        "mangas": mangas.objects.filter(user = request.user),
+        "movies": movies.objects.filter(user = request.user),
+        "watch_manga_status" : user_manga_watching_status.objects.all(),
+        "watch_drama_status": user_drama_watching_status.objects.all(),
+        "watch_anime_status" : user_anime_watching_status.objects.all(),
+        "watch_movie_status" : user_movie_data.objects.all(),
+    })
+    
+def plus_ep_drama(request, id):
+    drama = dramas.objects.filter(id = id)[0]
+    stat = drama.drama_watchstat.all()[0]
+    stat.last_watched_ep += 1
+    stat.save()
+    return render(request, "holics/library.html", {
+        "dramas" : dramas.objects.filter(user = request.user),
+        "animes": animes.objects.filter(user = request.user),
+        "mangas": mangas.objects.filter(user = request.user),
+        "movies": movies.objects.filter(user = request.user),
+        "watch_manga_status" : user_manga_watching_status.objects.all(),
+        "watch_drama_status": user_drama_watching_status.objects.all(),
+        "watch_anime_status" : user_anime_watching_status.objects.all(),
+        "watch_movie_status" : user_movie_data.objects.all(),
+    })
+    
+    
+def minus_ep_manga(request, id):
+    manga = mangas.objects.filter(id = id)[0]
+    stat = manga.manga_watchstat.all()[0]
+    stat.last_watched_ep -= 1
+    stat.save()
+    return render(request, "holics/library.html", {
+        "dramas" : dramas.objects.filter(user = request.user),
+        "animes": animes.objects.filter(user = request.user),
+        "mangas": mangas.objects.filter(user = request.user),
+        "movies": movies.objects.filter(user = request.user),
+        "watch_manga_status" : user_manga_watching_status.objects.all(),
+        "watch_drama_status": user_drama_watching_status.objects.all(),
+        "watch_anime_status" : user_anime_watching_status.objects.all(),
+        "watch_movie_status" : user_movie_data.objects.all(),
+    })
+    
+def plus_ep_manga(request, id):
+    manga = mangas.objects.filter(id = id)[0]
+    stat = manga.manga_watchstat.all()[0]
+    stat.last_watched_ep += 1
+    stat.save()
+    return render(request, "holics/library.html", {
+        "dramas" : dramas.objects.filter(user = request.user),
+        "animes": animes.objects.filter(user = request.user),
+        "mangas": mangas.objects.filter(user = request.user),
+        "movies": movies.objects.filter(user = request.user),
+        "watch_manga_status" : user_manga_watching_status.objects.all(),
+        "watch_drama_status": user_drama_watching_status.objects.all(),
+        "watch_anime_status" : user_anime_watching_status.objects.all(),
+        "watch_movie_status" : user_movie_data.objects.all(),
+    })
