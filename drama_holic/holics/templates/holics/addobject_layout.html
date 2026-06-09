@@ -85,6 +85,15 @@
   </style>
 </head>
 
+  <nav class="nav">
+    <h4>{{ request.user.username }}</h4>
+    <form action="{% url 'logout' %}" method="post">
+      {% csrf_token %}
+      <button type="submit" class="btn">Log out</button>
+    </form>
+  </nav>
+
+
 <body style="background-color: black; color: white">
   <div class="outermost">
     <div class="add">

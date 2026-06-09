@@ -31,6 +31,9 @@
     </style>
   </head>
   <body>
+    <h1>
+      Hello {{ request.user.name }}
+    </h1>
     <h1>Welcome to your Fictional Library!</h1>
     <button>
       <a href="{% url 'holics:showList' %}">Go to library</a>

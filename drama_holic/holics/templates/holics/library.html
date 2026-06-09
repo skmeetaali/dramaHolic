@@ -3,6 +3,7 @@
 <div class=" outer_right row">
   <h1 style="background-color: white;color: black;">Your current watch lis</h1>
   <br><br>
+ {% if dramas %}
   <h2 style="background-color: grey;">Drama List </h2>
   <div class="program">
     {% for d in dramas %}
@@ -28,11 +29,12 @@
     </div>
     {% endfor %}
   </div>
+{% endif %}
   <br>
   <hr>
 
 
-
+  {% if animes %}
   <h2 style="background-color: grey;">Anime List</h2>
   <div class="program">
     {% for anime in animes %}
@@ -57,11 +59,12 @@
     </div>
     {% endfor %}
   </div>
+{% endif %}
   <br>
   <hr>
 
 
-
+  {% if mangas %}
   <h2 style="background-color: grey;">Manga List</h2>
   <div class="program">
     {% for manga in mangas %}
@@ -88,6 +91,8 @@
     </div>
     {% endfor %}
   </div>
+    {% endif %}
+
 
   {% if movies %}
   <h2 style="background-color: grey;">Movie List</h2>

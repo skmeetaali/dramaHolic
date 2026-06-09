@@ -19,12 +19,14 @@ def home(request) :
 
 def add(request):
     return render(request, "holics/add.html", {
-        "dramas" : dramas.objects.all(),
-        "animes": animes.objects.all(),
-        "mangas": mangas.objects.all(),
+        "dramas" : dramas.objects.filter(user = request.user),
+        "animes": animes.objects.filter(user = request.user),
+        "mangas": mangas.objects.filter(user = request.user),
+        "movies": movies.objects.filter(user = request.user),
         "watch_manga_status" : user_manga_watching_status.objects.all(),
         "watch_drama_status": user_drama_watching_status.objects.all(),
-        "watch_anime_status" : user_anime_watching_status.objects.all()
+        "watch_anime_status" : user_anime_watching_status.objects.all(),
+        "watch_movie_status" : user_movie_data.objects.all(),
     })
 
 
@@ -100,14 +102,14 @@ def showList(request):
             
         
     return render(request, "holics/library.html", {
-        "dramas" : dramas.objects.all(),
-        "animes": animes.objects.all(),
-        "mangas": mangas.objects.all(),
-        "movies": movies.objects.all(),
+        "dramas" : dramas.objects.filter(user = request.user),
+        "animes": animes.objects.filter(user = request.user),
+        "mangas": mangas.objects.filter(user = request.user),
+        "movies": movies.objects.filter(user = request.user),
         "watch_manga_status" : user_manga_watching_status.objects.all(),
         "watch_drama_status": user_drama_watching_status.objects.all(),
         "watch_anime_status" : user_anime_watching_status.objects.all(),
-        "watch_movie_status" : user_movie_data.objects.all()
+        "watch_movie_status" : user_movie_data.objects.all(),
     })
     
 
@@ -149,7 +151,7 @@ def add_movies(request):
                     poster = first_movie.get("poster_path")
                     release_date = first_movie["release_date"]
                     if title:
-                        movie = movies(title=title, thumbnail_img=poster, release_date = release_date)
+                        movie = movies(user = request.user, title=title, thumbnail_img=poster, release_date = release_date)
                         movie.save()
                         watch_status = user_movie_data(movies=movie, watch_status=watch_status, like=like)
                         watch_status.save()
@@ -158,13 +160,14 @@ def add_movies(request):
             print_exc()
 
     return render(request, "holics/library.html", {
-        "dramas" : dramas.objects.all(),
-        "animes": animes.objects.all(),
-        "mangas": mangas.objects.all(),
+        "dramas" : dramas.objects.filter(user = request.user),
+        "animes": animes.objects.filter(user = request.user),
+        "mangas": mangas.objects.filter(user = request.user),
+        "movies": movies.objects.filter(user = request.user),
         "watch_manga_status" : user_manga_watching_status.objects.all(),
         "watch_drama_status": user_drama_watching_status.objects.all(),
         "watch_anime_status" : user_anime_watching_status.objects.all(),
-        "movies": movies.objects.all()
+        "watch_movie_status" : user_movie_data.objects.all(),
     })
     
 
@@ -258,7 +261,7 @@ def add_anime(request):
     
 
                         # adding anime to animes list
-                        anime = animes(title = title, original_title = original_title, total_ep = total_ep, status = status, thumbnail_img = thumbnail_img)
+                        anime = animes(user = request.user, title = title, original_title = original_title, total_ep = total_ep, status = status, thumbnail_img = thumbnail_img)
                         anime.save()
 
                         watch_status = user_anime_watching_status(anime = anime, last_released_ep = last_released_ep, next_ep_release_date = next_ep_release_date,last_watched_ep = curr_ep)   
@@ -274,12 +277,14 @@ def add_anime(request):
         
         
     return render(request, "holics/library.html", {
-        "dramas" : dramas.objects.all(),
-        "animes": animes.objects.all(),
-        "mangas": mangas.objects.all(),
+        "dramas" : dramas.objects.filter(user = request.user),
+        "animes": animes.objects.filter(user = request.user),
+        "mangas": mangas.objects.filter(user = request.user),
+        "movies": movies.objects.filter(user = request.user),
         "watch_manga_status" : user_manga_watching_status.objects.all(),
         "watch_drama_status": user_drama_watching_status.objects.all(),
-        "watch_anime_status" : user_anime_watching_status.objects.all()
+        "watch_anime_status" : user_anime_watching_status.objects.all(),
+        "watch_movie_status" : user_movie_data.objects.all(),
     })
     
     
@@ -375,7 +380,7 @@ def add_manga(request):
     
 
                         # adding anime to animes list
-                        manga = mangas(title = title, original_title = original_title, total_ep = total_ep, status = status, thumbnail_img = thumbnail_img)
+                        manga = mangas(user = request.user, title = title, original_title = original_title, total_ep = total_ep, status = status, thumbnail_img = thumbnail_img)
                         manga.save()
                             
 
@@ -393,12 +398,14 @@ def add_manga(request):
         
                 
     return render(request, "holics/library.html", {
-        "dramas" : dramas.objects.all(),
-        "animes": animes.objects.all(),
-        "mangas": mangas.objects.all(),
+        "dramas" : dramas.objects.filter(user = request.user),
+        "animes": animes.objects.filter(user = request.user),
+        "mangas": mangas.objects.filter(user = request.user),
+        "movies": movies.objects.filter(user = request.user),
         "watch_manga_status" : user_manga_watching_status.objects.all(),
         "watch_drama_status": user_drama_watching_status.objects.all(),
-        "watch_anime_status" : user_anime_watching_status.objects.all()
+        "watch_anime_status" : user_anime_watching_status.objects.all(),
+        "watch_movie_status" : user_movie_data.objects.all(),
     })
     
  
@@ -484,7 +491,7 @@ def add_drama(request):
                         total_ep = len(episodes)
                         
                         
-                    d = dramas(title = title, thumbnail_img = thumbnail_img,max_season = max_season )
+                    d = dramas(user = request.user, title = title, thumbnail_img = thumbnail_img,max_season = max_season )
                     d.save()
                     
                     w = user_drama_watching_status(drama = d, season = season, last_watched_ep = last_watched_ep, last_released_ep = last_released_ep,next_ep_release_date = next_ep_release_date)
@@ -498,11 +505,13 @@ def add_drama(request):
             print_exc()
    
     return render(request, "holics/library.html", {
-    "dramas" : dramas.objects.all(),
-    "animes": animes.objects.all(),
-    "mangas": mangas.objects.all(),
-    "watch_manga_status" : user_manga_watching_status.objects.all(),
-    "watch_drama_status": user_drama_watching_status.objects.all(),
-    "watch_anime_status" : user_anime_watching_status.objects.all(),
+        "dramas" : dramas.objects.filter(user = request.user),
+        "animes": animes.objects.filter(user = request.user),
+        "mangas": mangas.objects.filter(user = request.user),
+        "movies": movies.objects.filter(user = request.user),
+        "watch_manga_status" : user_manga_watching_status.objects.all(),
+        "watch_drama_status": user_drama_watching_status.objects.all(),
+        "watch_anime_status" : user_anime_watching_status.objects.all(),
+        "watch_movie_status" : user_movie_data.objects.all(),
     })
     
